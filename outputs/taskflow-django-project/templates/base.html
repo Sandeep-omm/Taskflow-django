@@ -1,0 +1,19 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f7f4"><title>{% block title %}Taskflow{% endblock %} · Taskflow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <link rel="stylesheet" href="{% static 'css/password-toggle.css' %}">
+  <script src="{% static 'js/password-toggle.js' %}" defer></script>
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="{% if user.is_authenticated %}{% url 'task-list' %}{% else %}{% url 'login' %}{% endif %}"><span class="brand-mark">t</span> taskflow<span class="brand-dot">.</span></a>
+    <nav>{% if user.is_authenticated %}<span class="welcome">Hi, {{ user.username }}</span><form action="{% url 'logout' %}" method="post">{% csrf_token %}<button class="nav-link" type="submit">Log out <span aria-hidden="true">↗</span></button></form>{% else %}<a class="nav-link" href="{% url 'login' %}">Log in</a><a class="button button-dark button-small" href="{% url 'signup' %}">Get started <span>↗</span></a>{% endif %}</nav>
+  </header>
+  <main>{% if messages %}<div class="messages">{% for message in messages %}<div class="message">{{ message }}</div>{% endfor %}</div>{% endif %}{% block content %}{% endblock %}</main>
+  <footer class="footer"><span>MADE FOR YOUR NEXT BIG THING</span><span>One task at a time <span class="brand-dot">✳</span></span></footer>
+</body>
+</html>
